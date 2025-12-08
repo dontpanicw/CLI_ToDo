@@ -1,4 +1,4 @@
-package repo
+package port
 
 import (
 	"CLI_ToDo/backend/internal/entity"

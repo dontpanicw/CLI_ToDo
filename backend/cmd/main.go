@@ -20,7 +20,6 @@ func main() {
 		logger.Fatal("error creating config", zap.Error(err))
 	}
 
-	// Миграции применяются автоматически в app.Start через NewGormDB
 	if err := app.Start(cfg, logger); err != nil {
 		logger.Fatal("failed to start application", zap.Error(err))
 	}
