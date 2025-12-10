@@ -7,4 +7,5 @@ type TaskUseCase interface {
 	Read(Id int) (*entity.Task, error)
 	Update(id int, name, description string) (int, error)
 	Delete(id int) error
+	MarkDone(id int) error
 }

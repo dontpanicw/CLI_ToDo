@@ -4,7 +4,7 @@ import (
 	"CLI_ToDo/backend/config"
 	"CLI_ToDo/backend/internal/adapter/repo/postgres"
 	"CLI_ToDo/backend/internal/cases"
-	migrations "CLI_ToDo/backend/pkg/migration/postgres"
+	migrations "CLI_ToDo/backend/pkg/migrations/postgres"
 	"context"
 	"database/sql"
 	"flag"
@@ -98,6 +98,15 @@ func Start(cfg config.Config, logger *zap.Logger) error {
 			return err
 		}
 		fmt.Printf("Задача удалена id=%d\n", *id)
+	case "done":
+		fs := flag.NewFlagSet("done", flag.ExitOnError)
+		id := fs.Int("id", 0, "id задачи")
+		_ = fs.Parse(args)
+
+		if err := taskUC.MarkDone(*id); err != nil {
+			return err
+		}
+		fmt.Printf("Задача отмечена как выполненная id=%d\n", *id)
 	case "help", "-h", "--help":
 		printUsage()
 	default:
@@ -114,5 +123,6 @@ func printUsage() {
 	fmt.Println("  read   -id <id>")
 	fmt.Println("  update -id <id> -name \"Название\" -desc \"Описание\"")
 	fmt.Println("  delete -id <id>")
+	fmt.Println("  done   -id <id>")
 	fmt.Println("  help")
 }

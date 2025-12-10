@@ -33,10 +33,10 @@ func (p *PostgresRepository) Create(name, description string) (int, error) {
 }
 
 func (p *PostgresRepository) Read(id int) (*entity.Task, error) {
-	const query = `SELECT id, name, description FROM tasks WHERE id = $1`
+	const query = `SELECT id, name, description, completed FROM tasks WHERE id = $1`
 
 	task := &entity.Task{}
-	err := p.db.QueryRow(query, id).Scan(&task.Id, &task.Name, &task.Description)
+	err := p.db.QueryRow(query, id).Scan(&task.Id, &task.Name, &task.Description, &task.Completed)
 	if errors.Is(err, sql.ErrNoRows) {
 		return nil, nil
 	}
@@ -62,6 +62,23 @@ func (p *PostgresRepository) Delete(id int) error {
 		return err
 	}
 
+	rows, err := result.RowsAffected()
+	if err != nil {
+		return err
+	}
+	if rows == 0 {
+		return sql.ErrNoRows
+	}
+	return nil
+}
+
+func (p *PostgresRepository) MarkDone(id int) error {
+	const query = `UPDATE tasks SET completed = TRUE WHERE id = $1`
+
+	result, err := p.db.Exec(query, id)
+	if err != nil {
+		return err
+	}
 	rows, err := result.RowsAffected()
 	if err != nil {
 		return err

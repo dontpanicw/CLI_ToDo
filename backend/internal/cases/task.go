@@ -50,3 +50,10 @@ func (t taskUseCase) Delete(id int) error {
 	}
 	return t.TaskRepo.Delete(id)
 }
+
+func (t taskUseCase) MarkDone(id int) error {
+	if id <= 0 {
+		return errors.New("id must be positive")
+	}
+	return t.TaskRepo.MarkDone(id)
+}
