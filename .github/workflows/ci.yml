@@ -14,32 +14,28 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
 
       - name: Set up Go
-        uses: actions/setup-go@v5
+        uses: actions/setup-go@v4
         with:
           go-version: '1.25'
+          cache: true
 
-      - name: Cache Go modules
-        uses: actions/cache@v4
-        with:
-          path: ~/go/pkg/mod
-          key: ${{ runner.os }}-go-${{ hashFiles('**/go.sum') }}
-          restore-keys: |
-            ${{ runner.os }}-go-
-
-      - name: Download dependencies
-        run: go mod download
+      - name: Debug Go version
+        run: |
+          go version
+          go env
 
       - name: Run golangci-lint
-        uses: golangci/golangci-lint-action@v4
+        uses: golangci/golangci-lint-action@v5
         with:
-          version: latest
-          args: --timeout=5m
+          version: v1.64.9
+          args: --timeout=5m --issues-exit-code=1
 
       - name: Build
         run: go build -v ./...
 
       - name: Run tests
         run: go test -v ./...
-
