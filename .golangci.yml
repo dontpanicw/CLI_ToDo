@@ -27,10 +27,6 @@ linters:
     - goimports
 
 issues:
-  exclude:
-    - path: backend/pkg/migrations/postgres/migration.go
-      linters:
-        - typecheck
   exclude-use-default: false
   max-issues-per-linter: 0
   max-same-issues: 0
@@ -39,6 +35,9 @@ issues:
       linters:
         - errcheck
         - gocyclo
+    - path: backend/pkg/migrations/postgres/migration.go
+      linters:
+        - typecheck
     - text: "Error return value of .((os\\.)?std(out|err)\\..*|.*\\.Close|.*\\.Flush|os\\.Remove(All)?|.*\\.Printf?|os\\.(Un)?Setenv). is not checked"
       linters:
         - errcheck
