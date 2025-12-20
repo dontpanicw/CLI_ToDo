@@ -56,7 +56,9 @@ func Start(cfg config.Config, logger *zap.Logger) error {
 		fs := flag.NewFlagSet("create", flag.ExitOnError)
 		name := fs.String("name", "", "название задачи")
 		description := fs.String("desc", "", "описание задачи")
-		_ = fs.Parse(args)
+		if err := fs.Parse(args); err != nil {
+			return fmt.Errorf("failed to parse flags: %w", err)
+		}
 
 		id, err := taskUC.Create(*name, *description)
 		if err != nil {
@@ -66,7 +68,9 @@ func Start(cfg config.Config, logger *zap.Logger) error {
 	case "read":
 		fs := flag.NewFlagSet("read", flag.ExitOnError)
 		id := fs.Int("id", 0, "id задачи")
-		_ = fs.Parse(args)
+		if err := fs.Parse(args); err != nil {
+			return fmt.Errorf("failed to parse flags: %w", err)
+		}
 
 		task, err := taskUC.Read(*id)
 		if err != nil {
@@ -82,7 +86,9 @@ func Start(cfg config.Config, logger *zap.Logger) error {
 		id := fs.Int("id", 0, "id задачи")
 		name := fs.String("name", "", "название задачи")
 		description := fs.String("desc", "", "описание задачи")
-		_ = fs.Parse(args)
+		if err := fs.Parse(args); err != nil {
+			return fmt.Errorf("failed to parse flags: %w", err)
+		}
 
 		updatedID, err := taskUC.Update(*id, *name, *description)
 		if err != nil {
@@ -92,7 +98,9 @@ func Start(cfg config.Config, logger *zap.Logger) error {
 	case "delete":
 		fs := flag.NewFlagSet("delete", flag.ExitOnError)
 		id := fs.Int("id", 0, "id задачи")
-		_ = fs.Parse(args)
+		if err := fs.Parse(args); err != nil {
+			return fmt.Errorf("failed to parse flags: %w", err)
+		}
 
 		if err := taskUC.Delete(*id); err != nil {
 			return err
@@ -101,7 +109,9 @@ func Start(cfg config.Config, logger *zap.Logger) error {
 	case "done":
 		fs := flag.NewFlagSet("done", flag.ExitOnError)
 		id := fs.Int("id", 0, "id задачи")
-		_ = fs.Parse(args)
+		if err := fs.Parse(args); err != nil {
+			return fmt.Errorf("failed to parse flags: %w", err)
+		}
 
 		if err := taskUC.MarkDone(*id); err != nil {
 			return err

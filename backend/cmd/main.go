@@ -13,7 +13,12 @@ func main() {
 	if err != nil {
 		panic("failed to create logger: " + err.Error())
 	}
-	defer logger.Sync()
+	defer func() {
+		if syncErr := logger.Sync(); syncErr != nil {
+			// Игнорируем ошибку sync в defer, это известная проблема zap
+			_ = syncErr
+		}
+	}()
 
 	cfg, err := config.NewConfig(logger)
 	if err != nil {

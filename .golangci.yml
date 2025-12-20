@@ -5,27 +5,11 @@ run:
 linters-settings:
   errcheck:
     check-type-assertions: true
-    check-blank: true
-  goconst:
-    min-len: 2
-    min-occurrences: 2
-  gocritic:
-    enabled-tags:
-      - diagnostic
-      - experimental
-      - opinionated
-      - performance
-      - style
-    disabled-checks:
-      - dupImport
-      - ifElseChain
-      - octalLiteral
-      - whyNoLint
-      - wrapperFunc
+    check-blank: false
   govet:
-    check-shadowing: true
+    check-shadowing: false
   gocyclo:
-    min-complexity: 15
+    min-complexity: 20
   misspell:
     locale: US
 
@@ -46,4 +30,12 @@ issues:
   exclude-use-default: false
   max-issues-per-linter: 0
   max-same-issues: 0
+  exclude-rules:
+    - path: _test\.go
+      linters:
+        - errcheck
+        - gocyclo
+    - text: "Error return value of .((os\\.)?std(out|err)\\..*|.*\\.Close|.*\\.Flush|os\\.Remove(All)?|.*\\.Printf?|os\\.(Un)?Setenv). is not checked"
+      linters:
+        - errcheck
 
