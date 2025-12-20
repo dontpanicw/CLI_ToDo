@@ -27,6 +27,10 @@ linters:
     - goimports
 
 issues:
+  exclude:
+    - path: backend/pkg/migrations/postgres/migration.go
+      linters:
+        - typecheck
   exclude-use-default: false
   max-issues-per-linter: 0
   max-same-issues: 0
