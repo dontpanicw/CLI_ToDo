@@ -2,9 +2,10 @@ package config
 
 import (
 	"fmt"
+	"os"
+
 	"github.com/joho/godotenv"
 	"go.uber.org/zap"
-	"os"
 )
 
 const DefaultHTTPPort = ":8080"
