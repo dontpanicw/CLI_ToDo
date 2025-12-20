@@ -43,3 +43,13 @@ go run ./backend/cmd <command> [flags]
 - Справка: `go run ./backend/cmd help`
 
 ### При ошибках подключения проверьте `POSTGRES_CONNECTION_STRING` и что Postgres запущен.
+
+## CI/CD
+Проект использует GitHub Actions для автоматической проверки кода:
+- **Build** — сборка всех пакетов проекта
+- **Linter** — проверка кода с помощью `golangci-lint`
+- **Tests** — запуск тестов
+
+CI запускается автоматически при push в ветки `main`, `master`, `develop` и при создании pull request.
+
+Конфигурация CI находится в `.github/workflows/ci.yml`, настройки линтера — в `.golangci.yml`.
